@@ -6,6 +6,7 @@ const game = document.getElementById("game");
 const heart = document.getElementById("heart");
 const topWord = document.getElementById("topWord");
 const endScreen = document.getElementById("endScreen");
+const loseScreen = document.getElementById("loseScreen");
 
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
@@ -84,7 +85,9 @@ function handleCatch(letter){
 /* === LOSE === */
 function lose(){
     gameEnded = true;
-    setTimeout(()=>location.reload(),700);
+    setTimeout(()=>{
+        loseScreen.style.display="flex";
+    },400);
 }
 
 /* === WIN === */
