@@ -7,37 +7,40 @@
 </head>
 <body>
 
+<!-- DAVAM ET OVERLAY -->
+<div id="continueOverlay">
+  <button id="continueBtn">▶</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" src="bg.mp3" loop preload="auto"></audio>
+<audio id="clickSound" src="click.mp3" preload="auto"></audio>
+<audio id="winSound" src="win.mp3" preload="auto"></audio>
+
 <div class="container">
 
   <h1>XOXO Oyunu</h1>
 
-  <!-- MODE SEÇİM -->
+  <!-- MODE -->
   <div class="modes">
     <button onclick="setMode('pvp')">👥 İki Nəfər</button>
     <button onclick="setMode('bot')">🤖 Botla Oyna</button>
   </div>
 
-  <!-- BOT DƏRƏCƏ -->
+  <!-- BOT LEVEL -->
   <div id="difficulty" class="hidden">
-    <h3>Dərəcə seç</h3>
     <button onclick="setDifficulty('easy')">Asan</button>
     <button onclick="setDifficulty('normal')">Normal</button>
     <button onclick="setDifficulty('hard')">Çətin</button>
   </div>
 
-  <!-- STATUS -->
   <div id="status">Oyunçu X başlayır</div>
 
-  <!-- BOARD -->
   <div class="board" id="board"></div>
 
-  <!-- RESTART -->
-  <button class="restart" onclick="restart()">Yenidən Başla</button>
+  <button class="restart" onclick="restart()">Yenidən başla</button>
 
 </div>
-
-<audio id="clickSound" src="click.mp3"></audio>
-<audio id="winSound" src="win.mp3"></audio>
 
 <script src="game.js"></script>
 </body>
