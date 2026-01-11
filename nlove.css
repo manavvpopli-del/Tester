@@ -1,88 +1,54 @@
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #240027, #000);
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  overflow: hidden;
+html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#2b002b,#000);
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-.title {
-  margin: 10px 0;
-  font-size: 34px;
-  color: #ff9ad5;
-  text-shadow: 0 0 15px pink;
+#topWord{
+    position:fixed;
+    top:20px;
+    width:100%;
+    text-align:center;
+    font-size:64px;
+    letter-spacing:14px;
+    color:#ff4fd8;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
+    z-index:10;
 }
 
-#gameArea {
-  position: relative;
-  width: 100%;
-  height: 85vh;
-  overflow: hidden;
+#game{
+    width:100vw;
+    height:100vh;
+    position:relative;
 }
 
-/* ÜRƏK */
-#heart {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  width: 80px;
-  transform: translateX(-50%) scale(1);
-  transition: transform 0.3s;
-  touch-action: none;
-  user-select: none;
+#heart{
+    position:absolute;
+    bottom:30px;
+    width:130px;
+    left:50%;
+    transform:translateX(-50%);
+    touch-action:none;
 }
 
-/* HƏRFLƏR */
-.letter {
-  position: absolute;
-  top: -60px;
-  font-size: 42px;
-  font-weight: bold;
-  color: #ffb6e9;
-  text-shadow:
-    0 0 10px #ff4fcf,
-    0 0 20px #ff4fcf,
-    0 0 30px #ff008c;
-  animation: fall linear forwards;
+.letter{
+    position:absolute;
+    font-size:56px;
+    font-weight:900;
+    color:white;
+    text-shadow:0 0 12px #ff4fd8,0 0 30px #ff4fd8;
+    animation:fall linear;
 }
 
-@keyframes fall {
-  to {
-    top: 100%;
-  }
+@keyframes fall{
+    from{transform:translateY(-100px)}
+    to{transform:translateY(110vh)}
 }
 
-#message {
-  font-size: 26px;
-  color: pink;
-  text-shadow: 0 0 10px hotpink;
-  margin-bottom: 10px;
-}
-#progressText {
-  font-size: 48px;
-  letter-spacing: 15px;
-  color: #ffb6e9;
-  text-shadow:
-    0 0 10px #ff4fcf,
-    0 0 25px #ff008c;
-  margin-bottom: 10px;
-}
-
-/* PARTICLE */
-.particle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: pink;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: explode 1s forwards;
-}
-
-@keyframes explode {
-  to {
-    transform: translate(var(--x), var(--y)) scale(0);
-    opacity: 0;
-  }
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
 }
