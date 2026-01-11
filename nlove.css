@@ -31,6 +31,7 @@ html,body{
     left:50%;
     transform:translateX(-50%);
     touch-action:none;
+    user-select:none;
 }
 
 .letter{
@@ -51,4 +52,41 @@ canvas{
     position:fixed;
     inset:0;
     pointer-events:none;
+}
+
+#endScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
+}
+
+#loveText{
+    font-size:64px;
+    color:#fff;
+    margin-bottom:30px;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.1)}
+    100%{transform:scale(1)}
+}
+
+#endButtons button{
+    font-size:20px;
+    padding:12px 30px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:#ff4fd8;
+    color:#000;
+    font-weight:bold;
 }
