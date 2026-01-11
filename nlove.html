@@ -1,22 +1,216 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>N Love</title>
-<body>
-<div id="progressText">_ _ _ _ _ _</div>
-  <link rel="stylesheet" href="nlove.css">
+<meta charset="UTF-8">
+<title>N Love</title>
+
+<style>
+html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#240022,#000);
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+#topWord{
+    position:fixed;
+    top:20px;
+    width:100%;
+    text-align:center;
+    font-size:64px;
+    letter-spacing:14px;
+    color:#ff5cd6;
+    text-shadow:
+        0 0 15px #ff5cd6,
+        0 0 35px #ff5cd6;
+    z-index:10;
+}
+
+#game{
+    position:relative;
+    width:100vw;
+    height:100vh;
+}
+
+#heart{
+    position:absolute;
+    bottom:30px;
+    width:130px;
+    left:50%;
+    transform:translateX(-50%);
+    touch-action:none;
+    user-select:none;
+}
+
+.letter{
+    position:absolute;
+    font-size:52px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:
+        0 0 12px #ff5cd6,
+        0 0 30px #ff5cd6;
+    animation:fall linear;
+}
+
+@keyframes fall{
+    from{transform:translateY(-80px)}
+    to{transform:translateY(110vh)}
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+</style>
 </head>
+
 <body>
 
-<h1 class="title">N ❤️ Love</h1>
+<div id="topWord"></div>
 
-<div id="gameArea">
-  <img id="heart" src="heart.png" draggable="false">
+<div id="game">
+    <img id="heart" src="heart.png">
 </div>
 
-<div id="message"></div>
+<canvas id="fx"></canvas>
 
-<script src="nlove.js"></script>
+<script>
+const ORDER = ["N","U","R","A","N","Ə"];
+let currentIndex = 0;
+let gameOver = false;
+
+const game = document.getElementById("game");
+const heart = document.getElementById("heart");
+const topWord = document.getElementById("topWord");
+
+const canvas = document.getElementById("fx");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+/* === HEART DRAG === */
+let dragging=false, offsetX=0;
+let heartX = innerWidth/2 - heart.offsetWidth/2;
+heart.style.left = heartX+"px";
+
+heart.addEventListener("pointerdown",e=>{
+    dragging=true;
+    offsetX = e.clientX - heartX;
+});
+addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    heartX = e.clientX - offsetX;
+    heartX = Math.max(0, Math.min(innerWidth-heart.offsetWidth, heartX));
+    heart.style.left = heartX+"px";
+});
+addEventListener("pointerup",()=>dragging=false);
+
+/* === LETTER SPAWN === */
+function spawnLetter(){
+    if(gameOver)return;
+
+    const l = document.createElement("div");
+    l.className = "letter";
+
+    // təsadüfi hərf
+    l.textContent = ORDER[Math.floor(Math.random()*ORDER.length)];
+    l.style.left = Math.random()*(innerWidth-60)+"px";
+    l.style.animationDuration = 3 + Math.random()*2 + "s";
+
+    game.appendChild(l);
+
+    const loop = setInterval(()=>{
+        const lr = l.getBoundingClientRect();
+        const hr = heart.getBoundingClientRect();
+
+        if(
+            lr.bottom > hr.top &&
+            lr.left < hr.right &&
+            lr.right > hr.left
+        ){
+            handleCatch(l.textContent);
+            l.remove();
+            clearInterval(loop);
+        }
+
+        if(lr.top > innerHeight){
+            l.remove();
+            clearInterval(loop);
+        }
+    },20);
+}
+
+/* === CORE LOGIC === */
+function handleCatch(letter){
+    if(gameOver)return;
+
+    // SIRADAN KƏNAR HƏRF → DƏRHAL UDUZMA
+    if(letter !== ORDER[currentIndex]){
+        loseGame();
+        return;
+    }
+
+    // DOĞRU HƏRF
+    topWord.textContent += letter;
+    currentIndex++;
+
+    if(currentIndex === ORDER.length){
+        winGame();
+    }
+}
+
+/* === LOSE === */
+function loseGame(){
+    gameOver = true;
+    setTimeout(()=>location.reload(),600);
+}
+
+/* === WIN === */
+let particles=[];
+
+function winGame(){
+    gameOver = true;
+
+    const r = heart.getBoundingClientRect();
+    const cx = r.left + r.width/2;
+    const cy = r.top + r.height/2;
+
+    for(let i=0;i<180;i++){
+        particles.push({
+            x:cx,y:cy,
+            vx:(Math.random()-0.5)*14,
+            vy:(Math.random()-0.5)*14,
+            life:70
+        });
+    }
+
+    heart.style.display="none";
+    animateParticles();
+}
+
+function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.fillStyle="rgba(255,80,200,0.9)";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fill();
+        p.x+=p.vx;
+        p.y+=p.vy;
+        p.life--;
+    });
+
+    particles = particles.filter(p=>p.life>0);
+    if(particles.length) requestAnimationFrame(animateParticles);
+}
+
+/* === START === */
+setInterval(spawnLetter,850);
+</script>
+
 </body>
 </html>
