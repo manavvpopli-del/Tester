@@ -59,3 +59,30 @@ body {
   text-shadow: 0 0 10px hotpink;
   margin-bottom: 10px;
 }
+#progressText {
+  font-size: 48px;
+  letter-spacing: 15px;
+  color: #ffb6e9;
+  text-shadow:
+    0 0 10px #ff4fcf,
+    0 0 25px #ff008c;
+  margin-bottom: 10px;
+}
+
+/* PARTICLE */
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: pink;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: explode 1s forwards;
+}
+
+@keyframes explode {
+  to {
+    transform: translate(var(--x), var(--y)) scale(0);
+    opacity: 0;
+  }
+}
