@@ -1,96 +1,135 @@
-const gameArea = document.getElementById("gameArea");
+const WORD = ["N","U","R","A","N","Ə"];
+let currentIndex = 0;
+let gameEnded = false;
+
+const game = document.getElementById("game");
 const heart = document.getElementById("heart");
-const message = document.getElementById("message");
+const topWord = document.getElementById("topWord");
 
-const targetName = ["N", "U", "R", "A", "N", "Ə"];
-let progressIndex = 0;
-let scale = 1;
-let gameOver = false;
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-// ===== SÜRÜKLƏMƏ =====
-let isDragging = false;
+/* ==== HEART DRAG ==== */
+let dragging=false, offsetX=0;
+let heartX = innerWidth/2 - heart.offsetWidth/2;
+heart.style.left = heartX+"px";
 
-heart.addEventListener("pointerdown", () => {
-  isDragging = true;
+heart.addEventListener("pointerdown",e=>{
+    dragging=true;
+    offsetX = e.clientX - heartX;
 });
-
-document.addEventListener("pointerup", () => {
-  isDragging = false;
+addEventListener("pointermove",e=>{
+    if(!dragging) return;
+    heartX = e.clientX - offsetX;
+    heartX = Math.max(0,Math.min(innerWidth-heart.offsetWidth,heartX));
+    heart.style.left = heartX+"px";
 });
+addEventListener("pointerup",()=>dragging=false);
 
-document.addEventListener("pointermove", (e) => {
-  if (!isDragging || gameOver) return;
+/* ==== LETTER SPAWN ==== */
+function spawnLetter(){
+    if(gameEnded) return;
 
-  let x = e.clientX - heart.offsetWidth / 2;
-  x = Math.max(0, Math.min(window.innerWidth - heart.offsetWidth, x));
-  heart.style.left = x + "px";
-});
+    const el = document.createElement("div");
+    el.className = "letter";
 
-// ===== HƏRF YARAT =====
-function spawnLetter() {
-  if (gameOver) return;
+    const randomLetter = WORD[Math.floor(Math.random()*WORD.length)];
+    el.textContent = randomLetter;
 
-  const letter = document.createElement("div");
-  const randomChar = targetName[Math.floor(Math.random() * targetName.length)];
+    el.style.left = Math.random()*(innerWidth-60)+"px";
+    el.style.animationDuration = 3 + Math.random()*2 + "s";
 
-  letter.className = "letter";
-  letter.textContent = randomChar;
-  letter.style.left = Math.random() * (window.innerWidth - 50) + "px";
-  letter.style.animationDuration = (3 + Math.random() * 2) + "s";
+    game.appendChild(el);
 
-  gameArea.appendChild(letter);
+    const check = setInterval(()=>{
+        const lr = el.getBoundingClientRect();
+        const hr = heart.getBoundingClientRect();
 
-  const check = setInterval(() => {
-    if (gameOver) {
-      letter.remove();
-      clearInterval(check);
-      return;
-    }
+        if(
+            lr.bottom > hr.top &&
+            lr.left < hr.right &&
+            lr.right > hr.left
+        ){
+            checkLetter(randomLetter);
+            el.remove();
+            clearInterval(check);
+        }
 
-    const l = letter.getBoundingClientRect();
-    const h = heart.getBoundingClientRect();
-
-    if (
-      l.bottom >= h.top &&
-      l.left < h.right &&
-      l.right > h.left
-    ) {
-      collectLetter();
-      letter.remove();
-      clearInterval(check);
-    }
-
-    if (l.top > window.innerHeight) {
-      letter.remove();
-      clearInterval(check);
-    }
-  }, 40);
+        if(lr.top > innerHeight){
+            el.remove();
+            clearInterval(check);
+        }
+    },16);
 }
 
-// ===== TOPLA =====
-function collectLetter() {
-  const currentChar = targetName[progressIndex];
-  message.textContent = targetName.slice(0, progressIndex + 1).join("");
+/* ==== CORE LOGIC ==== */
+function checkLetter(letter){
+    if(gameEnded) return;
 
-  scale += 0.15;
-  heart.style.transform = `translateX(-50%) scale(${scale})`;
+    const expected = WORD[currentIndex];
 
-  progressIndex++;
+    // ❌ ARDICILLIQDAN KƏNAR → UDUZMA
+    if(letter !== expected){
+        lose();
+        return;
+    }
 
-  if (progressIndex === targetName.length) {
-    endGame();
-  }
+    // ✅ DOĞRU HƏRF
+    topWord.textContent += letter;
+    currentIndex++;
+
+    if(currentIndex === WORD.length){
+        win();
+    }
 }
 
-// ===== OYUN BİTİŞ =====
-function endGame() {
-  gameOver = true;
-  clearInterval(spawnTimer);
-
-  heart.style.transition = "0.5s";
-  heart.style.transform += " scale(2) rotate(720deg)";
-  message.textContent = "❤️ N U R A N Ə ❤️";
+/* ==== LOSE ==== */
+function lose(){
+    gameEnded = true;
+    setTimeout(()=>location.reload(),700);
 }
 
-// START
-const spawnTimer = setInterval(spawnLetter, 800);
+/* ==== WIN ==== */
+let particles=[];
+
+function win(){
+    gameEnded = true;
+
+    const r = heart.getBoundingClientRect();
+    const cx = r.left + r.width/2;
+    const cy = r.top + r.height/2;
+
+    for(let i=0;i<200;i++){
+        particles.push({
+            x:cx,y:cy,
+            vx:(Math.random()-0.5)*12,
+            vy:(Math.random()-0.5)*12,
+            life:70
+        });
+    }
+
+    heart.style.display="none";
+    animateParticles();
+}
+
+function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.fillStyle="rgba(255,80,200,0.9)";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fill();
+        p.x+=p.vx;
+        p.y+=p.vy;
+        p.life--;
+    });
+
+    particles = particles.filter(p=>p.life>0);
+    if(particles.length) requestAnimationFrame(animateParticles);
+}
+
+/* ==== START ==== */
+setInterval(spawnLetter,900);
