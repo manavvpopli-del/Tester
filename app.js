@@ -40,7 +40,7 @@ function login() {
 
   localStorage.setItem("sessionKey", key);
   save();
-  location.href = "game.html";
+  location.href = "select.html";
 }
 
 /* ========== SESSION CHECK ========== */
