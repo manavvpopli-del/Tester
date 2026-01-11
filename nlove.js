@@ -4,69 +4,77 @@ const message = document.getElementById("message");
 
 const nameLetters = ["N", "U", "R", "A", "N", "Ə"];
 let collected = "";
-let heartScale = 1;
-let heartX = window.innerWidth / 2;
+let scale = 1;
 
-function moveLeft() {
-  heartX -= 40;
-  updateHeart();
-}
+// ==== SÜRÜKLƏMƏ (mouse + touch) ====
+let isDragging = false;
 
-function moveRight() {
-  heartX += 40;
-  updateHeart();
-}
+heart.addEventListener("pointerdown", () => {
+  isDragging = true;
+});
 
-function updateHeart() {
-  heart.style.left = heartX + "px";
-}
+document.addEventListener("pointerup", () => {
+  isDragging = false;
+});
 
+document.addEventListener("pointermove", (e) => {
+  if (!isDragging) return;
+
+  let x = e.clientX - heart.offsetWidth / 2;
+  x = Math.max(0, Math.min(window.innerWidth - heart.offsetWidth, x));
+  heart.style.left = x + "px";
+});
+
+// ==== HƏRF YARATMA ====
 function spawnLetter() {
   const letter = document.createElement("div");
-  const randomLetter = nameLetters[Math.floor(Math.random() * nameLetters.length)];
+  const char = nameLetters[Math.floor(Math.random() * nameLetters.length)];
 
   letter.className = "letter";
-  letter.textContent = randomLetter;
-  letter.style.left = Math.random() * (window.innerWidth - 40) + "px";
+  letter.textContent = char;
+  letter.style.left = Math.random() * (window.innerWidth - 50) + "px";
+  letter.style.animationDuration = (3 + Math.random() * 2) + "s";
 
   gameArea.appendChild(letter);
 
-  const fallInterval = setInterval(() => {
-    const letterRect = letter.getBoundingClientRect();
-    const heartRect = heart.getBoundingClientRect();
+  const check = setInterval(() => {
+    const l = letter.getBoundingClientRect();
+    const h = heart.getBoundingClientRect();
 
     if (
-      letterRect.bottom >= heartRect.top &&
-      letterRect.left < heartRect.right &&
-      letterRect.right > heartRect.left
+      l.bottom >= h.top &&
+      l.left < h.right &&
+      l.right > h.left
     ) {
-      collectLetter(letter.textContent);
+      collect(char);
       letter.remove();
-      clearInterval(fallInterval);
+      clearInterval(check);
     }
 
-    if (letterRect.top > window.innerHeight) {
+    if (l.top > window.innerHeight) {
       letter.remove();
-      clearInterval(fallInterval);
+      clearInterval(check);
     }
-  }, 50);
+  }, 40);
 }
 
-function collectLetter(char) {
+function collect(char) {
   collected += char;
-  heartScale += 0.15;
-  heart.style.transform = `translateX(-50%) scale(${heartScale})`;
+  scale += 0.15;
+  heart.style.transform = `translateX(-50%) scale(${scale})`;
   message.textContent = collected;
 
   if (collected === "NURANƏ") {
-    explodeHeart();
+    explode();
   }
 }
 
-function explodeHeart() {
-  heart.textContent = "💥";
-  message.textContent = "N ❤️ U R A N Ə";
+function explode() {
+  heart.style.transition = "0.4s";
+  heart.style.transform += " rotate(720deg) scale(2)";
+  message.textContent = "❤️ N U R A N Ə ❤️";
   clearInterval(spawnTimer);
 }
 
-const spawnTimer = setInterval(spawnLetter, 900);
+// Start
+const spawnTimer = setInterval(spawnLetter, 800);
