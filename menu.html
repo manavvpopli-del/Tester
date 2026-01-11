@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Menu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu-bg">
+
+  <h1 class="title">🎮 OYUN SEÇ</h1>
+
+  <div class="menu">
+    <button onclick="startGame('aim.html')">🎯 Aim Trainer</button>
+    <button onclick="startGame('xoxo.html')">❌⭕ XOXO</button>
+  </div>
+
+  <!-- DAVAM ET -->
+  <div id="continueBox" class="continue hidden">
+    <button class="continue-btn" onclick="continueGame()">DAVAM ET</button>
+  </div>
+
+  <audio id="bgMusic" src="audio/bg.mp3" loop></audio>
+
+<script src="menu.js"></script>
+</body>
+</html>
