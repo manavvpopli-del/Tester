@@ -40,7 +40,7 @@ function login() {
 
   localStorage.setItem("sessionKey", key);
   save();
-  location.href = "menu.html";
+  location.href = "menu.js";
 }
 
 /* ========== SESSION CHECK ========== */
@@ -64,7 +64,7 @@ function checkSession() {
 /* ========== LOGOUT ========== */
 function logout() {
   localStorage.removeItem("sessionKey");
-  location.href = "index.html";
+  location.href = "menu.html";
 }
 
 /* ========== ADMIN KEY CREATE ========== */
