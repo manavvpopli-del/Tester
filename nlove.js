@@ -5,13 +5,14 @@ let gameEnded = false;
 const game = document.getElementById("game");
 const heart = document.getElementById("heart");
 const topWord = document.getElementById("topWord");
+const endScreen = document.getElementById("endScreen");
 
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-/* ==== HEART DRAG ==== */
+/* === HEART DRAG === */
 let dragging=false, offsetX=0;
 let heartX = innerWidth/2 - heart.offsetWidth/2;
 heart.style.left = heartX+"px";
@@ -28,15 +29,14 @@ addEventListener("pointermove",e=>{
 });
 addEventListener("pointerup",()=>dragging=false);
 
-/* ==== LETTER SPAWN ==== */
+/* === LETTER SPAWN === */
 function spawnLetter(){
     if(gameEnded) return;
 
     const el = document.createElement("div");
     el.className = "letter";
-
-    const randomLetter = WORD[Math.floor(Math.random()*WORD.length)];
-    el.textContent = randomLetter;
+    const letter = WORD[Math.floor(Math.random()*WORD.length)];
+    el.textContent = letter;
 
     el.style.left = Math.random()*(innerWidth-60)+"px";
     el.style.animationDuration = 3 + Math.random()*2 + "s";
@@ -52,7 +52,7 @@ function spawnLetter(){
             lr.left < hr.right &&
             lr.right > hr.left
         ){
-            checkLetter(randomLetter);
+            handleCatch(letter);
             el.remove();
             clearInterval(check);
         }
@@ -64,19 +64,15 @@ function spawnLetter(){
     },16);
 }
 
-/* ==== CORE LOGIC ==== */
-function checkLetter(letter){
+/* === GAME LOGIC === */
+function handleCatch(letter){
     if(gameEnded) return;
 
-    const expected = WORD[currentIndex];
-
-    // ❌ ARDICILLIQDAN KƏNAR → UDUZMA
-    if(letter !== expected){
+    if(letter !== WORD[currentIndex]){
         lose();
         return;
     }
 
-    // ✅ DOĞRU HƏRF
     topWord.textContent += letter;
     currentIndex++;
 
@@ -85,13 +81,13 @@ function checkLetter(letter){
     }
 }
 
-/* ==== LOSE ==== */
+/* === LOSE === */
 function lose(){
     gameEnded = true;
     setTimeout(()=>location.reload(),700);
 }
 
-/* ==== WIN ==== */
+/* === WIN === */
 let particles=[];
 
 function win(){
@@ -112,6 +108,10 @@ function win(){
 
     heart.style.display="none";
     animateParticles();
+
+    setTimeout(()=>{
+        endScreen.style.display="flex";
+    },1200);
 }
 
 function animateParticles(){
@@ -131,5 +131,15 @@ function animateParticles(){
     if(particles.length) requestAnimationFrame(animateParticles);
 }
 
-/* ==== START ==== */
+/* === CONTROLS === */
+function restartGame(){
+    location.reload();
+}
+
+function closeGame(){
+    document.body.innerHTML="";
+    document.body.style.background="black";
+}
+
+/* === START === */
 setInterval(spawnLetter,900);
