@@ -24,9 +24,10 @@ html,body{
     position:relative;
 }
 
+/* ❤️ ÜRƏK BİRAZ YUXARIDADIR */
 #heart{
     position:absolute;
-    bottom:30px;
+    bottom:90px;
     width:130px;
     left:50%;
     transform:translateX(-50%);
@@ -54,7 +55,9 @@ canvas{
     pointer-events:none;
 }
 
-#endScreen{
+/* WIN + LOSE ORTAQ */
+#endScreen,
+#loseScreen{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,0.8);
@@ -65,7 +68,8 @@ canvas{
     z-index:50;
 }
 
-#loveText{
+#loveText,
+#loseText{
     font-size:64px;
     color:#fff;
     margin-bottom:30px;
