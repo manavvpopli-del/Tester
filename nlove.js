@@ -2,11 +2,12 @@ const gameArea = document.getElementById("gameArea");
 const heart = document.getElementById("heart");
 const message = document.getElementById("message");
 
-const nameLetters = ["N", "U", "R", "A", "N", "Ə"];
-let collected = "";
+const targetName = ["N", "U", "R", "A", "N", "Ə"];
+let progressIndex = 0;
 let scale = 1;
+let gameOver = false;
 
-// ==== SÜRÜKLƏMƏ (mouse + touch) ====
+// ===== SÜRÜKLƏMƏ =====
 let isDragging = false;
 
 heart.addEventListener("pointerdown", () => {
@@ -18,26 +19,34 @@ document.addEventListener("pointerup", () => {
 });
 
 document.addEventListener("pointermove", (e) => {
-  if (!isDragging) return;
+  if (!isDragging || gameOver) return;
 
   let x = e.clientX - heart.offsetWidth / 2;
   x = Math.max(0, Math.min(window.innerWidth - heart.offsetWidth, x));
   heart.style.left = x + "px";
 });
 
-// ==== HƏRF YARATMA ====
+// ===== HƏRF YARAT =====
 function spawnLetter() {
+  if (gameOver) return;
+
   const letter = document.createElement("div");
-  const char = nameLetters[Math.floor(Math.random() * nameLetters.length)];
+  const randomChar = targetName[Math.floor(Math.random() * targetName.length)];
 
   letter.className = "letter";
-  letter.textContent = char;
+  letter.textContent = randomChar;
   letter.style.left = Math.random() * (window.innerWidth - 50) + "px";
   letter.style.animationDuration = (3 + Math.random() * 2) + "s";
 
   gameArea.appendChild(letter);
 
   const check = setInterval(() => {
+    if (gameOver) {
+      letter.remove();
+      clearInterval(check);
+      return;
+    }
+
     const l = letter.getBoundingClientRect();
     const h = heart.getBoundingClientRect();
 
@@ -46,7 +55,7 @@ function spawnLetter() {
       l.left < h.right &&
       l.right > h.left
     ) {
-      collect(char);
+      collectLetter();
       letter.remove();
       clearInterval(check);
     }
@@ -58,23 +67,30 @@ function spawnLetter() {
   }, 40);
 }
 
-function collect(char) {
-  collected += char;
+// ===== TOPLA =====
+function collectLetter() {
+  const currentChar = targetName[progressIndex];
+  message.textContent = targetName.slice(0, progressIndex + 1).join("");
+
   scale += 0.15;
   heart.style.transform = `translateX(-50%) scale(${scale})`;
-  message.textContent = collected;
 
-  if (collected === "NURANƏ") {
-    explode();
+  progressIndex++;
+
+  if (progressIndex === targetName.length) {
+    endGame();
   }
 }
 
-function explode() {
-  heart.style.transition = "0.4s";
-  heart.style.transform += " rotate(720deg) scale(2)";
-  message.textContent = "❤️ N U R A N Ə ❤️";
+// ===== OYUN BİTİŞ =====
+function endGame() {
+  gameOver = true;
   clearInterval(spawnTimer);
+
+  heart.style.transition = "0.5s";
+  heart.style.transform += " scale(2) rotate(720deg)";
+  message.textContent = "❤️ N U R A N Ə ❤️";
 }
 
-// Start
+// START
 const spawnTimer = setInterval(spawnLetter, 800);
