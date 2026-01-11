@@ -6,12 +6,23 @@
 </head>
 <body>
 
-<h2>Admin Panel – Key idarəsi</h2>
+<h2>Admin Girişi</h2>
+<input type="password" id="adminPass" placeholder="Admin şifrəsi">
+<button onclick="adminLogin()">Giriş</button>
 
-<input type="text" id="newKey" placeholder="Yeni key yaz">
-<button onclick="addKey()">Key yarat</button>
+<div id="adminPanel" style="display:none">
 
-<ul id="keyList"></ul>
+  <h3>Key yarat</h3>
+
+  <input id="newKey" placeholder="Key">
+  <input id="deviceLimit" type="number" placeholder="Cihaz sayı">
+  <input id="expireDate" type="date">
+
+  <button onclick="addKey()">Yarat</button>
+
+  <ul id="keyList"></ul>
+
+</div>
 
 <script src="app.js"></script>
 </body>
