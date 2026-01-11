@@ -56,3 +56,11 @@ body {
   70% { box-shadow: 0 0 40px red; }
   100% { box-shadow: 0 0 0 red; }
 }
+#target {
+  width: 60px;
+  height: 60px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  cursor: crosshair;
+}
