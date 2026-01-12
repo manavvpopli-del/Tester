@@ -3,86 +3,59 @@ html,body{
     padding:0;
     overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
-    height:100%;
 }
 
-/* ================= ARXA FON ================= */
+/* ARXA FON */
 #bg{
     position:fixed;
     inset:0;
-    z-index:-10;
     background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
-        url("background.jpg") center / cover no-repeat;
+        linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.8)),
+        url("background.jpg") center/cover no-repeat;
+    z-index:-1;
 }
 
-/* ================= PAROL OVERLAY ================= */
+/* 🔐 PAROL */
 #passwordOverlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.9);
+    background:rgba(0,0,0,.9);
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:200;
+    z-index:300;
 }
 
-.passwordBox{
-    background:rgba(20,0,20,0.95);
-    padding:35px 30px;
-    border-radius:22px;
+#passwordOverlay .box{
     text-align:center;
-    box-shadow:0 0 40px rgba(255,79,216,0.6);
 }
 
-.passwordBox h2{
-    font-size:36px;
+#passwordOverlay input{
+    padding:10px;
+    font-size:18px;
     margin-bottom:10px;
-    color:#ff4fd8;
 }
 
-.passwordBox p{
-    margin-bottom:20px;
-    opacity:.8;
-}
-
-.passwordBox input{
-    width:100%;
-    padding:12px 14px;
-    border-radius:12px;
-    border:none;
-    outline:none;
+#passwordOverlay button{
+    padding:10px 20px;
     font-size:18px;
-    margin-bottom:15px;
-}
-
-.passwordBox button{
-    width:100%;
-    padding:12px;
-    font-size:18px;
-    border:none;
-    border-radius:30px;
     cursor:pointer;
-    background:#ff4fd8;
-    color:#000;
-    font-weight:bold;
 }
 
 #passwordError{
-    margin-top:10px;
-    color:#ff4f4f;
-    font-size:14px;
+    color:red;
+    display:none;
 }
 
-/* ================= DAVAM ET ================= */
+/* ▶️ DAVAM ET */
 #startOverlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.75);
-    display:flex;
+    background:rgba(0,0,0,.85);
+    display:none;
     justify-content:center;
     align-items:center;
-    z-index:150;
+    z-index:200;
 }
 
 #continueBtn{
@@ -93,109 +66,54 @@ html,body{
     background:#ff2e63;
     color:white;
     font-size:22px;
-    font-weight:bold;
     cursor:pointer;
-    box-shadow:0 0 30px rgba(255,46,99,.8);
-    animation:pulseBtn 1.5s infinite;
 }
 
-@keyframes pulseBtn{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.12)}
-    100%{transform:scale(1)}
-}
-
-/* ================= YUXARI YAZI ================= */
+/* OYUN */
 #topWord{
     position:fixed;
     top:20px;
     width:100%;
     text-align:center;
-    font-size:64px;
-    letter-spacing:14px;
+    font-size:60px;
     color:#ff4fd8;
-    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
-    z-index:20;
+    z-index:10;
 }
 
-/* ================= OYUN SAHƏSİ ================= */
 #game{
     width:100vw;
     height:100vh;
     position:relative;
-    z-index:5;
 }
 
-/* ❤️ ÜRƏK */
 #heart{
     position:absolute;
-    bottom:200px;
+    bottom:120px;
     width:130px;
     left:50%;
     transform:translateX(-50%);
-    touch-action:none;
-    user-select:none;
 }
 
-/* ================= DÜŞƏN HƏRFLƏR ================= */
 .letter{
     position:absolute;
     font-size:56px;
-    font-weight:900;
     color:white;
-    text-shadow:0 0 12px #ff4fd8,0 0 30px #ff4fd8;
-    animation:fall linear;
+    animation:fall 4s linear;
 }
 
 @keyframes fall{
-    from{transform:translateY(-120px)}
+    from{transform:translateY(-100px)}
     to{transform:translateY(110vh)}
 }
 
-/* ================= PARTICLE ================= */
-canvas{
+/* QAZAN / UDUZ */
+#endScreen,#loseScreen{
     position:fixed;
     inset:0;
-    pointer-events:none;
-    z-index:30;
-}
-
-/* ================= WIN + LOSE ================= */
-#endScreen,
-#loseScreen{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,.85);
     display:none;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
-    z-index:180;
-}
-
-#loveText,
-#loseText{
-    font-size:64px;
-    color:#fff;
-    margin-bottom:30px;
-    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
-    animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.1)}
-    100%{transform:scale(1)}
-}
-
-#endButtons button{
-    font-size:20px;
-    padding:12px 30px;
-    margin:10px;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    background:#ff4fd8;
-    color:#000;
-    font-weight:bold;
+    flex-direction:column;
+    z-index:400;
 }
