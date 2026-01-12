@@ -9,7 +9,7 @@ function login() {
   // Sadə yoxlama (istəsən sonra gücləndirərik)
   if (key === "1234") {
     // Giriş uğurlu → oyuna keç
-    window.location.href = "game.html";
+    window.location.href = "select.html";
   } else {
     alert("Key yanlışdır");
   }
