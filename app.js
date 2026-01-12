@@ -1,121 +1,26 @@
-const ADMIN_PASSWORD = "123456"; // dəyiş!
+const music = document.getElementById("globalMusic");
+const frame = document.getElementById("appFrame");
 
-let keys = JSON.parse(localStorage.getItem("keys")) || [];
-let deviceId = localStorage.getItem("deviceId");
+window.addEventListener("message", (e) => {
+  switch (e.data) {
+    case "PLAY_MUSIC":
+      music.play();
+      break;
 
-if (!deviceId) {
-  deviceId = crypto.randomUUID();
-  localStorage.setItem("deviceId", deviceId);
-}
+    case "STOP_MUSIC":
+      music.pause();
+      break;
 
-/* ========== ADMIN LOGIN ========== */
-function adminLogin() {
-  let pass = document.getElementById("adminPass").value;
-  if (pass === ADMIN_PASSWORD) {
-    document.getElementById("adminPanel").style.display = "block";
-  } else {
-    alert("Şifrə yanlışdır ❌");
+    case "OPEN_XOXO":
+      frame.src = "xoxo.html";
+      break;
+
+    case "OPEN_NLOVE":
+      frame.src = "nlove.html";
+      break;
+
+    case "BACK_TO_SELECT":
+      frame.src = "select.html";
+      break;
   }
-}
-
-/* ========== LOGIN ========== */
-function login() {
-  let key = document.getElementById("keyInput").value;
-  let now = new Date();
-
-  let k = keys.find(k =>
-    k.value === key &&
-    k.active &&
-    new Date(k.expire) > now &&
-    (!k.devices || k.devices.includes(deviceId) || k.devices.length < k.deviceLimit)
-  );
-
-  if (!k) {
-    document.getElementById("msg").innerText = "Giriş mümkün deyil ❌";
-    return;
-  }
-
-  k.devices = k.devices || [];
-  if (!k.devices.includes(deviceId)) k.devices.push(deviceId);
-
-  localStorage.setItem("sessionKey", key);
-  save();
-  location.href = "select.html";
-}
-
-/* ========== SESSION CHECK ========== */
-function checkSession() {
-  let key = localStorage.getItem("sessionKey");
-  if (!key) return;
-
-  let now = new Date();
-  let k = keys.find(k => k.value === key);
-
-  if (
-    !k ||
-    !k.active ||
-    new Date(k.expire) < now ||
-    !k.devices.includes(deviceId)
-  ) {
-    logout();
-  }
-}
-
-/* ========== LOGOUT ========== */
-function logout() {
-  localStorage.removeItem("sessionKey");
-  location.href = "game.js";
-}
-
-/* ========== ADMIN KEY CREATE ========== */
-function addKey() {
-  keys.push({
-    value: document.getElementById("newKey").value,
-    deviceLimit: Number(document.getElementById("deviceLimit").value),
-    expire: document.getElementById("expireDate").value,
-    active: true,
-    devices: []
-  });
-  save();
-  renderKeys();
-}
-
-/* ========== ADMIN ACTIONS ========== */
-function toggleKey(i) {
-  keys[i].active = !keys[i].active;
-  save();
-}
-
-function deleteKey(i) {
-  keys.splice(i, 1);
-  save();
-  renderKeys();
-}
-
-/* ========== STORAGE ========== */
-function save() {
-  localStorage.setItem("keys", JSON.stringify(keys));
-}
-
-/* ========== ADMIN UI ========== */
-function renderKeys() {
-  let list = document.getElementById("keyList");
-  if (!list) return;
-
-  list.innerHTML = "";
-  keys.forEach((k, i) => {
-    list.innerHTML += `
-      <li>
-        <b>${k.value}</b>
-        | Cihaz: ${k.devices.length}/${k.deviceLimit}
-        | Bitir: ${k.expire}
-        | ${k.active ? "🟢" : "🔴"}
-        <button onclick="toggleKey(${i})">Aktiv/Stop</button>
-        <button onclick="deleteKey(${i})">Sil</button>
-      </li>
-    `;
-  });
-}
-
-renderKeys();
-checkSession();
+});
