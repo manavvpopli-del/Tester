@@ -11,25 +11,15 @@
 <!-- ARXA FON -->
 <div id="bg"></div>
 
-<!-- 🔐 PAROL -->
-<div id="passwordOverlay">
-    <div class="box">
-        <h2>Şifrəni daxil et</h2>
-        <input id="passwordInput" type="password" placeholder="Şifrə">
-        <button id="passwordBtn">Daxil ol</button>
-        <p id="passwordError">Şifrə yanlışdır</p>
-    </div>
-</div>
-
-<!-- ▶️ DAVAM ET -->
+<!-- DAVAM ET -->
 <div id="startOverlay">
     <button id="continueBtn">Davam et</button>
 </div>
 
-<!-- 🎵 MUSİQİ -->
+<!-- MUSIQI -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
-<!-- YUXARI SÖZ -->
+<!-- YUXARIDA TOPLANAN SÖZ -->
 <div id="topWord"></div>
 
 <!-- OYUN -->
@@ -37,14 +27,14 @@
     <img id="heart" src="heart.png" draggable="false">
 </div>
 
-<!-- CANVAS -->
+<!-- PARTICLE -->
 <canvas id="particles"></canvas>
 
 <!-- QAZAN -->
 <div id="endScreen">
     <div id="loveText">SƏNİ SEVİRƏM 🖤</div>
     <div id="endButtons">
-        <button onclick="restartGame()">Yenidən</button>
+        <button onclick="restartGame()">Yenidən oyna</button>
         <button onclick="closeGame()">Çıx</button>
     </div>
 </div>
@@ -53,7 +43,7 @@
 <div id="loseScreen">
     <div id="loseText">Uduzdun 💔</div>
     <div id="endButtons">
-        <button onclick="restartGame()">Yenidən</button>
+        <button onclick="restartGame()">Yenidən oyna</button>
         <button onclick="closeGame()">Çıx</button>
     </div>
 </div>
