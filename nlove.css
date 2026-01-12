@@ -9,53 +9,21 @@ html,body{
 #bg{
     position:fixed;
     inset:0;
+    z-index:-10;
     background:
-        linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.8)),
+        linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.7)),
         url("background.jpg") center/cover no-repeat;
-    z-index:-1;
 }
 
-/* 🔐 PAROL */
-#passwordOverlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.9);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:300;
-}
-
-#passwordOverlay .box{
-    text-align:center;
-}
-
-#passwordOverlay input{
-    padding:10px;
-    font-size:18px;
-    margin-bottom:10px;
-}
-
-#passwordOverlay button{
-    padding:10px 20px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-#passwordError{
-    color:red;
-    display:none;
-}
-
-/* ▶️ DAVAM ET */
+/* DAVAM ET */
 #startOverlay{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.85);
-    display:none;
+    display:flex;
     justify-content:center;
     align-items:center;
-    z-index:200;
+    z-index:100;
 }
 
 #continueBtn{
@@ -66,17 +34,28 @@ html,body{
     background:#ff2e63;
     color:white;
     font-size:22px;
+    font-weight:bold;
     cursor:pointer;
+    box-shadow:0 0 30px rgba(255,46,99,.8);
+    animation:pulse 1.5s infinite;
 }
 
-/* OYUN */
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.12)}
+    100%{transform:scale(1)}
+}
+
+/* TOP WORD */
 #topWord{
     position:fixed;
     top:20px;
     width:100%;
     text-align:center;
-    font-size:60px;
+    font-size:64px;
+    letter-spacing:14px;
     color:#ff4fd8;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
     z-index:10;
 }
 
@@ -86,19 +65,24 @@ html,body{
     position:relative;
 }
 
+/* HEART */
 #heart{
     position:absolute;
-    bottom:120px;
+    bottom:180px;
     width:130px;
     left:50%;
     transform:translateX(-50%);
+    touch-action:none;
 }
 
+/* LETTER */
 .letter{
     position:absolute;
     font-size:56px;
+    font-weight:900;
     color:white;
-    animation:fall 4s linear;
+    text-shadow:0 0 12px #ff4fd8,0 0 30px #ff4fd8;
+    animation:fall linear;
 }
 
 @keyframes fall{
@@ -106,14 +90,41 @@ html,body{
     to{transform:translateY(110vh)}
 }
 
-/* QAZAN / UDUZ */
+/* CANVAS */
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+/* WIN / LOSE */
 #endScreen,#loseScreen{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.85);
+    background:rgba(0,0,0,.8);
     display:none;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
-    z-index:400;
+    z-index:50;
+}
+
+#loveText,#loseText{
+    font-size:64px;
+    color:#fff;
+    margin-bottom:30px;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
+    animation:pulse 1.5s infinite;
+}
+
+#endButtons button{
+    font-size:20px;
+    padding:12px 30px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:#ff4fd8;
+    color:#000;
+    font-weight:bold;
 }
