@@ -15,7 +15,7 @@ const endScreen = document.getElementById("endScreen");
 const loseScreen = document.getElementById("loseScreen");
 
 /* ================= PAROL ================= */
-const PASSWORD = "1234";
+const PASSWORD = "salamlar";
 
 passwordOverlay.style.display = "flex";
 startOverlay.style.display = "none";
