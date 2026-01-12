@@ -8,29 +8,40 @@
 
 <body>
 
-<!-- ARXA FON ŞƏKİL -->
+<!-- ================= PAROL OVERLAY ================= -->
+<div id="passwordOverlay">
+    <div class="passwordBox">
+        <h2>N Love</h2>
+        <p>Parolu daxil et</p>
+        <input type="password" id="passwordInput" placeholder="Parol">
+        <button onclick="checkPassword()">Daxil ol</button>
+        <div id="passwordError"></div>
+    </div>
+</div>
+
+<!-- ================= ARXA FON ŞƏKİL ================= -->
 <div id="bg"></div>
 
-<!-- DAVAM ET OVERLAY -->
-<div id="startOverlay">
+<!-- ================= DAVAM ET OVERLAY ================= -->
+<div id="startOverlay" style="display:none">
     <button id="continueBtn">Davam et</button>
 </div>
 
-<!-- ARXA FON MUSİQİ -->
+<!-- ================= ARXA FON MUSİQİ ================= -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
-<!-- YUXARIDA YIĞILAN SÖZ -->
+<!-- ================= YUXARIDA YIĞILAN SÖZ ================= -->
 <div id="topWord"></div>
 
-<!-- OYUN SAHƏSİ -->
+<!-- ================= OYUN SAHƏSİ ================= -->
 <div id="game">
     <img id="heart" src="heart.png" draggable="false">
 </div>
 
-<!-- PARTİCLE -->
+<!-- ================= PARTİCLE ================= -->
 <canvas id="particles"></canvas>
 
-<!-- QAZANMA -->
+<!-- ================= QAZANMA ================= -->
 <div id="endScreen">
     <div id="loveText">SƏNİ SEVİRƏM 🖤</div>
     <div id="endButtons">
@@ -39,7 +50,7 @@
     </div>
 </div>
 
-<!-- UDUZMA -->
+<!-- ================= UDUZMA ================= -->
 <div id="loseScreen">
     <div id="loseText">Uduzdun 💔</div>
     <div id="endButtons">
