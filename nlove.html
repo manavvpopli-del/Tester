@@ -8,15 +8,26 @@
 
 <body>
 
+<!-- DAVAM ET OVERLAY -->
+<div id="startOverlay">
+    <button id="continueBtn">Davam et</button>
+</div>
+
+<!-- ARXA FON MUSİQİ -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- YUXARIDA YIĞILAN SÖZ -->
 <div id="topWord"></div>
 
+<!-- OYUN SAHƏSİ -->
 <div id="game">
     <img id="heart" src="heart.png" draggable="false">
 </div>
 
+<!-- PARTİCLE CANVAS -->
 <canvas id="particles"></canvas>
 
-<!-- WIN SCREEN -->
+<!-- QAZANMA EKRANI -->
 <div id="endScreen">
     <div id="loveText">SƏNİ SEVİRƏM 🖤</div>
     <div id="endButtons">
@@ -25,7 +36,7 @@
     </div>
 </div>
 
-<!-- LOSE SCREEN -->
+<!-- UDUZMA EKRANI -->
 <div id="loseScreen">
     <div id="loseText">Uduzdun 💔</div>
     <div id="endButtons">
