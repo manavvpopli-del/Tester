@@ -8,53 +8,52 @@
 
 <body>
 
-<!-- ================= PAROL OVERLAY ================= -->
+<!-- ARXA FON -->
+<div id="bg"></div>
+
+<!-- 🔐 PAROL -->
 <div id="passwordOverlay">
-    <div class="passwordBox">
-        <h2>N Love</h2>
-        <p>Parolu daxil et</p>
-        <input type="password" id="passwordInput" placeholder="Parol">
-        <button onclick="checkPassword()">Daxil ol</button>
-        <div id="passwordError"></div>
+    <div class="box">
+        <h2>Şifrəni daxil et</h2>
+        <input id="passwordInput" type="password" placeholder="Şifrə">
+        <button id="passwordBtn">Daxil ol</button>
+        <p id="passwordError">Şifrə yanlışdır</p>
     </div>
 </div>
 
-<!-- ================= ARXA FON ŞƏKİL ================= -->
-<div id="bg"></div>
-
-<!-- ================= DAVAM ET OVERLAY ================= -->
-<div id="startOverlay" style="display:none">
+<!-- ▶️ DAVAM ET -->
+<div id="startOverlay">
     <button id="continueBtn">Davam et</button>
 </div>
 
-<!-- ================= ARXA FON MUSİQİ ================= -->
+<!-- 🎵 MUSİQİ -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
-<!-- ================= YUXARIDA YIĞILAN SÖZ ================= -->
+<!-- YUXARI SÖZ -->
 <div id="topWord"></div>
 
-<!-- ================= OYUN SAHƏSİ ================= -->
+<!-- OYUN -->
 <div id="game">
     <img id="heart" src="heart.png" draggable="false">
 </div>
 
-<!-- ================= PARTİCLE ================= -->
+<!-- CANVAS -->
 <canvas id="particles"></canvas>
 
-<!-- ================= QAZANMA ================= -->
+<!-- QAZAN -->
 <div id="endScreen">
     <div id="loveText">SƏNİ SEVİRƏM 🖤</div>
     <div id="endButtons">
-        <button onclick="restartGame()">Yenidən oyna</button>
+        <button onclick="restartGame()">Yenidən</button>
         <button onclick="closeGame()">Çıx</button>
     </div>
 </div>
 
-<!-- ================= UDUZMA ================= -->
+<!-- UDUZ -->
 <div id="loseScreen">
     <div id="loseText">Uduzdun 💔</div>
     <div id="endButtons">
-        <button onclick="restartGame()">Yenidən oyna</button>
+        <button onclick="restartGame()">Yenidən</button>
         <button onclick="closeGame()">Çıx</button>
     </div>
 </div>
