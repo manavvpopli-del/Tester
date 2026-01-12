@@ -1,61 +1,36 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Oyun Seç</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(#111, #000);
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    h1 {
-      margin-bottom: 40px;
-      font-size: 36px;
-    }
-
-    .menu {
-      display: flex;
-      gap: 30px;
-    }
-
-    .menu button {
-      padding: 20px 40px;
-      font-size: 22px;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff0055, #ff9900);
-      color: white;
-      transition: 0.3s;
-    }
-
-    .menu button:hover {
-      transform: scale(1.1);
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Oyun Seç</title>
+<link rel="stylesheet" href="select.css">
 </head>
+
 <body>
 
-<h1>🎮 Oyun Seç</h1>
+<h1 class="title">🎮 Oyununu Seç</h1>
 
-<div class="menu">
-  <button onclick="go('game.html')">❌⭕ XOXO</button>
-  <button onclick="go('nlove.html')">🖤 N Oyunu</button>
+<div class="games">
+
+    <!-- XOXO -->
+    <div class="game-card" onclick="location.href='xoxo.html'">
+        <img src="images/xoxo.jpg" alt="XOXO">
+        <div class="overlay">
+            <h2>XOXO</h2>
+            <p>Klassik, əyləncəli oyun</p>
+        </div>
+    </div>
+
+    <!-- N LOVE -->
+    <div class="game-card" onclick="location.href='nlove.html'">
+        <img src="images/nlove.jpg" alt="N Love">
+        <div class="overlay">
+            <h2>N Love</h2>
+            <p>Romantik və emosional oyun</p>
+        </div>
+    </div>
+
 </div>
-
-<script>
-  function go(page) {
-    window.location.href = page;
-  }
-</script>
 
 </body>
 </html>
