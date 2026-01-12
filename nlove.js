@@ -1,19 +1,34 @@
-/* ================= DAVAM ET + MUSIQI ================= */
+/* ===== PAROL SISTEMI ===== */
+const PASSWORD = "hsnfanur"; // 🔒 BURADAN DEYIŞ
+const passOverlay = document.getElementById("passwordOverlay");
+const passBtn = document.getElementById("passwordBtn");
+const passInput = document.getElementById("passwordInput");
+const passError = document.getElementById("passwordError");
+const startOverlay = document.getElementById("startOverlay");
+
+passBtn.onclick = () => {
+    if(passInput.value === PASSWORD){
+        passOverlay.style.display = "none";
+        startOverlay.style.display = "flex";
+    } else {
+        passError.style.display = "block";
+    }
+};
+
+/* ===== MUSIQI ===== */
 const continueBtn = document.getElementById("continueBtn");
-const overlay = document.getElementById("startOverlay");
 const music = document.getElementById("bgMusic");
 
-continueBtn.addEventListener("click", () => {
+continueBtn.onclick = () => {
     music.play();
-    overlay.style.display = "none";
+    startOverlay.style.display = "none";
     startGame();
-});
+};
 
-/* ================= OYUN DATA ================= */
+/* ===== OYUN ===== */
 const WORD = ["N","U","R","A","N","Ə"];
 let currentIndex = 0;
 let gameEnded = false;
-let spawnInterval = null;
 
 const game = document.getElementById("game");
 const heart = document.getElementById("heart");
@@ -21,148 +36,71 @@ const topWord = document.getElementById("topWord");
 const endScreen = document.getElementById("endScreen");
 const loseScreen = document.getElementById("loseScreen");
 
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+let heartX = innerWidth/2;
+heart.style.left = heartX+"px";
 
-/* ================= HEART DRAG ================= */
-let dragging = false, offsetX = 0;
-let heartX = innerWidth / 2 - heart.offsetWidth / 2;
-heart.style.left = heartX + "px";
-
-heart.addEventListener("pointerdown", e => {
-    dragging = true;
-    offsetX = e.clientX - heartX;
+/* DRAG */
+addEventListener("pointermove", e=>{
+    if(gameEnded) return;
+    heartX = e.clientX - 65;
+    heartX = Math.max(0, Math.min(innerWidth-130, heartX));
+    heart.style.left = heartX+"px";
 });
 
-addEventListener("pointermove", e => {
-    if (!dragging || gameEnded) return;
-    heartX = e.clientX - offsetX;
-    heartX = Math.max(0, Math.min(innerWidth - heart.offsetWidth, heartX));
-    heart.style.left = heartX + "px";
-});
-
-addEventListener("pointerup", () => dragging = false);
-
-/* ================= LETTER SPAWN ================= */
-function spawnLetter() {
-    if (gameEnded) return;
+/* LETTER */
+function spawnLetter(){
+    if(gameEnded) return;
 
     const el = document.createElement("div");
     el.className = "letter";
-    const letter = WORD[Math.floor(Math.random() * WORD.length)];
+    const letter = WORD[Math.floor(Math.random()*WORD.length)];
     el.textContent = letter;
-
-    el.style.left = Math.random() * (innerWidth - 60) + "px";
-    el.style.animationDuration = 3 + Math.random() * 2 + "s";
-
+    el.style.left = Math.random()*(innerWidth-60)+"px";
+    el.style.animationDuration = "4s";
     game.appendChild(el);
 
-    const check = setInterval(() => {
+    const check = setInterval(()=>{
         const lr = el.getBoundingClientRect();
         const hr = heart.getBoundingClientRect();
 
-        if (
-            lr.bottom > hr.top &&
-            lr.left < hr.right &&
-            lr.right > hr.left
-        ) {
-            handleCatch(letter);
+        if(lr.bottom > hr.top && lr.left < hr.right && lr.right > hr.left){
+            if(letter !== WORD[currentIndex]) lose();
+            else{
+                topWord.textContent += letter;
+                currentIndex++;
+                if(currentIndex === WORD.length) win();
+            }
             el.remove();
             clearInterval(check);
         }
 
-        if (lr.top > innerHeight) {
+        if(lr.top > innerHeight){
             el.remove();
             clearInterval(check);
         }
-    }, 16);
+    },16);
 }
 
-/* ================= GAME LOGIC ================= */
-function handleCatch(letter) {
-    if (gameEnded) return;
-
-    if (letter !== WORD[currentIndex]) {
-        lose();
-        return;
-    }
-
-    topWord.textContent += letter;
-    currentIndex++;
-
-    if (currentIndex === WORD.length) {
-        win();
-    }
-}
-
-/* ================= LOSE ================= */
-function lose() {
+/* WIN / LOSE */
+function win(){
     gameEnded = true;
-    clearInterval(spawnInterval);
-    setTimeout(() => {
-        loseScreen.style.display = "flex";
-    }, 400);
+    endScreen.style.display = "flex";
 }
 
-/* ================= WIN ================= */
-let particles = [];
-
-function win() {
+function lose(){
     gameEnded = true;
-    clearInterval(spawnInterval);
-
-    const r = heart.getBoundingClientRect();
-    const cx = r.left + r.width / 2;
-    const cy = r.top + r.height / 2;
-
-    for (let i = 0; i < 200; i++) {
-        particles.push({
-            x: cx,
-            y: cy,
-            vx: (Math.random() - 0.5) * 12,
-            vy: (Math.random() - 0.5) * 12,
-            life: 70
-        });
-    }
-
-    heart.style.display = "none";
-    animateParticles();
-
-    setTimeout(() => {
-        endScreen.style.display = "flex";
-    }, 1200);
+    loseScreen.style.display = "flex";
 }
 
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(p => {
-        ctx.fillStyle = "rgba(255,80,200,0.9)";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life--;
-    });
-
-    particles = particles.filter(p => p.life > 0);
-    if (particles.length) requestAnimationFrame(animateParticles);
-}
-
-/* ================= CONTROLS ================= */
-function restartGame() {
+function restartGame(){
     location.reload();
 }
 
-function closeGame() {
-    document.body.innerHTML = "";
-    document.body.style.background = "black";
+function closeGame(){
+    document.body.innerHTML="";
 }
 
-/* ================= START ================= */
-function startGame() {
-    spawnInterval = setInterval(spawnLetter, 900);
+/* START */
+function startGame(){
+    setInterval(spawnLetter, 900);
 }
