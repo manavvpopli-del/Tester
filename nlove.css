@@ -1,137 +1,137 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-    /* 🔥 ARXA PLAN ŞƏKİL */
+/* ================= ARXA FON ================= */
+#bg{
+    position:fixed;
+    inset:0;
+    z-index:-999;
     background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)),
-        url("background.jpg") no-repeat center center fixed;
-
-    background-size: cover;
-    font-family: Arial, Helvetica, sans-serif;
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.75)),
+        url("background.jpg") center / cover no-repeat;
 }
 
-/* ================= DAVAM ET OVERLAY ================= */
-#startOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
+/* ================= DAVAM ET ================= */
+#startOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:100;
 }
 
-#continueBtn {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    border: none;
-    background: #ff2e63;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow:
-        0 0 30px rgba(255,46,99,0.8),
-        0 0 60px rgba(255,46,99,0.6);
-    animation: continuePulse 1.5s infinite;
+#continueBtn{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    border:none;
+    background:#ff2e63;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 30px rgba(255,46,99,.8);
+    animation:pulseBtn 1.5s infinite;
 }
 
-@keyframes continuePulse {
-    0% { transform: scale(1) }
-    50% { transform: scale(1.12) }
-    100% { transform: scale(1) }
+@keyframes pulseBtn{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.12)}
+    100%{transform:scale(1)}
 }
 
-/* ================= YUXARIDA YIĞILAN SÖZ ================= */
-#topWord {
-    position: fixed;
-    top: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 64px;
-    letter-spacing: 14px;
-    color: #ff4fd8;
-    text-shadow: 0 0 15px #ff4fd8, 0 0 40px #ff4fd8;
-    z-index: 10;
+/* ================= YUXARI YAZI ================= */
+#topWord{
+    position:fixed;
+    top:20px;
+    width:100%;
+    text-align:center;
+    font-size:64px;
+    letter-spacing:14px;
+    color:#ff4fd8;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
+    z-index:10;
 }
 
-#game {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    background: transparent; /* ŞƏKİL GÖRÜNSÜN DEYƏ */
+#game{
+    width:100vw;
+    height:100vh;
+    position:relative;
 }
 
 /* ❤️ ÜRƏK */
-#heart {
-    position: absolute;
-    bottom: 90px;
-    width: 130px;
-    left: 50%;
-    transform: translateX(-50%);
-    touch-action: none;
-    user-select: none;
+#heart{
+    position:absolute;
+    bottom:90px;
+    width:130px;
+    left:50%;
+    transform:translateX(-50%);
+    touch-action:none;
+    user-select:none;
 }
 
-.letter {
-    position: absolute;
-    font-size: 56px;
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 0 12px #ff4fd8, 0 0 30px #ff4fd8;
-    animation: fall linear;
+.letter{
+    position:absolute;
+    font-size:56px;
+    font-weight:900;
+    color:white;
+    text-shadow:0 0 12px #ff4fd8,0 0 30px #ff4fd8;
+    animation:fall linear;
 }
 
-@keyframes fall {
-    from { transform: translateY(-100px) }
-    to { transform: translateY(110vh) }
+@keyframes fall{
+    from{transform:translateY(-100px)}
+    to{transform:translateY(110vh)}
 }
 
-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
 }
 
 /* ================= WIN + LOSE ================= */
 #endScreen,
-#loseScreen {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
+#loseScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
 }
 
 #loveText,
-#loseText {
-    font-size: 64px;
-    color: #fff;
-    margin-bottom: 30px;
-    text-shadow: 0 0 15px #ff4fd8, 0 0 40px #ff4fd8;
-    animation: pulse 1.5s infinite;
+#loseText{
+    font-size:64px;
+    color:#fff;
+    margin-bottom:30px;
+    text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
+    animation:pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1) }
-    50% { transform: scale(1.1) }
-    100% { transform: scale(1) }
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.1)}
+    100%{transform:scale(1)}
 }
 
-#endButtons button {
-    font-size: 20px;
-    padding: 12px 30px;
-    margin: 10px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    background: #ff4fd8;
-    color: #000;
-    font-weight: bold;
+#endButtons button{
+    font-size:20px;
+    padding:12px 30px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:#ff4fd8;
+    color:#000;
+    font-weight:bold;
 }
