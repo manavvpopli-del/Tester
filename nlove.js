@@ -1,6 +1,19 @@
+/* ================= DAVAM ET + MUSIQI ================= */
+const continueBtn = document.getElementById("continueBtn");
+const overlay = document.getElementById("startOverlay");
+const music = document.getElementById("bgMusic");
+
+continueBtn.addEventListener("click", () => {
+    music.play();
+    overlay.style.display = "none";
+    startGame();
+});
+
+/* ================= OYUN DATA ================= */
 const WORD = ["N","U","R","A","N","Ə"];
 let currentIndex = 0;
 let gameEnded = false;
+let spawnInterval = null;
 
 const game = document.getElementById("game");
 const heart = document.getElementById("heart");
@@ -13,63 +26,65 @@ const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-/* === HEART DRAG === */
-let dragging=false, offsetX=0;
-let heartX = innerWidth/2 - heart.offsetWidth/2;
-heart.style.left = heartX+"px";
+/* ================= HEART DRAG ================= */
+let dragging = false, offsetX = 0;
+let heartX = innerWidth / 2 - heart.offsetWidth / 2;
+heart.style.left = heartX + "px";
 
-heart.addEventListener("pointerdown",e=>{
-    dragging=true;
+heart.addEventListener("pointerdown", e => {
+    dragging = true;
     offsetX = e.clientX - heartX;
 });
-addEventListener("pointermove",e=>{
-    if(!dragging) return;
-    heartX = e.clientX - offsetX;
-    heartX = Math.max(0,Math.min(innerWidth-heart.offsetWidth,heartX));
-    heart.style.left = heartX+"px";
-});
-addEventListener("pointerup",()=>dragging=false);
 
-/* === LETTER SPAWN === */
-function spawnLetter(){
-    if(gameEnded) return;
+addEventListener("pointermove", e => {
+    if (!dragging || gameEnded) return;
+    heartX = e.clientX - offsetX;
+    heartX = Math.max(0, Math.min(innerWidth - heart.offsetWidth, heartX));
+    heart.style.left = heartX + "px";
+});
+
+addEventListener("pointerup", () => dragging = false);
+
+/* ================= LETTER SPAWN ================= */
+function spawnLetter() {
+    if (gameEnded) return;
 
     const el = document.createElement("div");
     el.className = "letter";
-    const letter = WORD[Math.floor(Math.random()*WORD.length)];
+    const letter = WORD[Math.floor(Math.random() * WORD.length)];
     el.textContent = letter;
 
-    el.style.left = Math.random()*(innerWidth-60)+"px";
-    el.style.animationDuration = 3 + Math.random()*2 + "s";
+    el.style.left = Math.random() * (innerWidth - 60) + "px";
+    el.style.animationDuration = 3 + Math.random() * 2 + "s";
 
     game.appendChild(el);
 
-    const check = setInterval(()=>{
+    const check = setInterval(() => {
         const lr = el.getBoundingClientRect();
         const hr = heart.getBoundingClientRect();
 
-        if(
+        if (
             lr.bottom > hr.top &&
             lr.left < hr.right &&
             lr.right > hr.left
-        ){
+        ) {
             handleCatch(letter);
             el.remove();
             clearInterval(check);
         }
 
-        if(lr.top > innerHeight){
+        if (lr.top > innerHeight) {
             el.remove();
             clearInterval(check);
         }
-    },16);
+    }, 16);
 }
 
-/* === GAME LOGIC === */
-function handleCatch(letter){
-    if(gameEnded) return;
+/* ================= GAME LOGIC ================= */
+function handleCatch(letter) {
+    if (gameEnded) return;
 
-    if(letter !== WORD[currentIndex]){
+    if (letter !== WORD[currentIndex]) {
         lose();
         return;
     }
@@ -77,72 +92,77 @@ function handleCatch(letter){
     topWord.textContent += letter;
     currentIndex++;
 
-    if(currentIndex === WORD.length){
+    if (currentIndex === WORD.length) {
         win();
     }
 }
 
-/* === LOSE === */
-function lose(){
+/* ================= LOSE ================= */
+function lose() {
     gameEnded = true;
-    setTimeout(()=>{
-        loseScreen.style.display="flex";
-    },400);
+    clearInterval(spawnInterval);
+    setTimeout(() => {
+        loseScreen.style.display = "flex";
+    }, 400);
 }
 
-/* === WIN === */
-let particles=[];
+/* ================= WIN ================= */
+let particles = [];
 
-function win(){
+function win() {
     gameEnded = true;
+    clearInterval(spawnInterval);
 
     const r = heart.getBoundingClientRect();
-    const cx = r.left + r.width/2;
-    const cy = r.top + r.height/2;
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
 
-    for(let i=0;i<200;i++){
+    for (let i = 0; i < 200; i++) {
         particles.push({
-            x:cx,y:cy,
-            vx:(Math.random()-0.5)*12,
-            vy:(Math.random()-0.5)*12,
-            life:70
+            x: cx,
+            y: cy,
+            vx: (Math.random() - 0.5) * 12,
+            vy: (Math.random() - 0.5) * 12,
+            life: 70
         });
     }
 
-    heart.style.display="none";
+    heart.style.display = "none";
     animateParticles();
 
-    setTimeout(()=>{
-        endScreen.style.display="flex";
-    },1200);
+    setTimeout(() => {
+        endScreen.style.display = "flex";
+    }, 1200);
 }
 
-function animateParticles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach(p=>{
-        ctx.fillStyle="rgba(255,80,200,0.9)";
+    particles.forEach(p => {
+        ctx.fillStyle = "rgba(255,80,200,0.9)";
         ctx.beginPath();
-        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
         ctx.fill();
-        p.x+=p.vx;
-        p.y+=p.vy;
+        p.x += p.vx;
+        p.y += p.vy;
         p.life--;
     });
 
-    particles = particles.filter(p=>p.life>0);
-    if(particles.length) requestAnimationFrame(animateParticles);
+    particles = particles.filter(p => p.life > 0);
+    if (particles.length) requestAnimationFrame(animateParticles);
 }
 
-/* === CONTROLS === */
-function restartGame(){
+/* ================= CONTROLS ================= */
+function restartGame() {
     location.reload();
 }
 
-function closeGame(){
-    document.body.innerHTML="";
-    document.body.style.background="black";
+function closeGame() {
+    document.body.innerHTML = "";
+    document.body.style.background = "black";
 }
 
-/* === START === */
-setInterval(spawnLetter,900);
+/* ================= START ================= */
+function startGame() {
+    spawnInterval = setInterval(spawnLetter, 900);
+}
