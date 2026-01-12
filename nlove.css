@@ -3,27 +3,86 @@ html,body{
     padding:0;
     overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
+    height:100%;
 }
 
 /* ================= ARXA FON ================= */
 #bg{
     position:fixed;
     inset:0;
-    z-index:-999;
+    z-index:-10;
     background:
-        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.75)),
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
         url("background.jpg") center / cover no-repeat;
+}
+
+/* ================= PAROL OVERLAY ================= */
+#passwordOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:200;
+}
+
+.passwordBox{
+    background:rgba(20,0,20,0.95);
+    padding:35px 30px;
+    border-radius:22px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(255,79,216,0.6);
+}
+
+.passwordBox h2{
+    font-size:36px;
+    margin-bottom:10px;
+    color:#ff4fd8;
+}
+
+.passwordBox p{
+    margin-bottom:20px;
+    opacity:.8;
+}
+
+.passwordBox input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+.passwordBox button{
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:#ff4fd8;
+    color:#000;
+    font-weight:bold;
+}
+
+#passwordError{
+    margin-top:10px;
+    color:#ff4f4f;
+    font-size:14px;
 }
 
 /* ================= DAVAM ET ================= */
 #startOverlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.75);
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:100;
+    z-index:150;
 }
 
 #continueBtn{
@@ -56,13 +115,15 @@ html,body{
     letter-spacing:14px;
     color:#ff4fd8;
     text-shadow:0 0 15px #ff4fd8,0 0 40px #ff4fd8;
-    z-index:10;
+    z-index:20;
 }
 
+/* ================= OYUN SAHƏSİ ================= */
 #game{
     width:100vw;
     height:100vh;
     position:relative;
+    z-index:5;
 }
 
 /* ❤️ ÜRƏK */
@@ -76,6 +137,7 @@ html,body{
     user-select:none;
 }
 
+/* ================= DÜŞƏN HƏRFLƏR ================= */
 .letter{
     position:absolute;
     font-size:56px;
@@ -86,14 +148,16 @@ html,body{
 }
 
 @keyframes fall{
-    from{transform:translateY(-100px)}
+    from{transform:translateY(-120px)}
     to{transform:translateY(110vh)}
 }
 
+/* ================= PARTICLE ================= */
 canvas{
     position:fixed;
     inset:0;
     pointer-events:none;
+    z-index:30;
 }
 
 /* ================= WIN + LOSE ================= */
@@ -101,12 +165,12 @@ canvas{
 #loseScreen{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.8);
+    background:rgba(0,0,0,0.85);
     display:none;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    z-index:50;
+    z-index:180;
 }
 
 #loveText,
