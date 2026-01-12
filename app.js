@@ -1,26 +1,16 @@
-const music = document.getElementById("globalMusic");
-const frame = document.getElementById("appFrame");
+function login() {
+  const key = document.getElementById("keyInput").value.trim();
 
-window.addEventListener("message", (e) => {
-  switch (e.data) {
-    case "PLAY_MUSIC":
-      music.play();
-      break;
-
-    case "STOP_MUSIC":
-      music.pause();
-      break;
-
-    case "OPEN_XOXO":
-      frame.src = "xoxo.html";
-      break;
-
-    case "OPEN_NLOVE":
-      frame.src = "nlove.html";
-      break;
-
-    case "BACK_TO_SELECT":
-      frame.src = "select.html";
-      break;
+  if (key === "") {
+    alert("Zəhmət olmasa key daxil et");
+    return;
   }
-});
+
+  // Sadə yoxlama (istəsən sonra gücləndirərik)
+  if (key === "1234") {
+    // Giriş uğurlu → oyuna keç
+    window.location.href = "game.html";
+  } else {
+    alert("Key yanlışdır");
+  }
+}
