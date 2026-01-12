@@ -1,27 +1,53 @@
-<!DOCTYPE html>  <html lang="az">  
-<head>  
-<meta charset="UTF-8">  
-<title>N Love</title>  
-<link rel="stylesheet" href="nlove.css">  
-</head>  <body>  <!-- DAVAM ET OVERLAY -->  <div id="startOverlay">  
-    <button id="continueBtn">Davam et</button>  
-</div>  <!-- ARXA FON MUSİQİ -->  <audio id="bgMusic" src="music.mp3" loop></audio>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<title>N Love</title>
+<link rel="stylesheet" href="nlove.css">
+</head>
 
-<!-- YUXARIDA YIĞILAN SÖZ -->  <div id="topWord"></div>  <!-- OYUN SAHƏSİ -->  <div id="game">  
-    <img id="heart" src="heart.png" draggable="false">  
-</div>  <!-- PARTİCLE CANVAS -->  <canvas id="particles"></canvas>
+<body>
 
-<!-- QAZANMA EKRANI -->  <div id="endScreen">  
-    <div id="loveText">SƏNİ SEVİRƏM 🖤</div>  
-    <div id="endButtons">  
-        <button onclick="restartGame()">Yenidən oyna</button>  
-        <button onclick="closeGame()">Çıx</button>  
-    </div>  
-</div>  <!-- UDUZMA EKRANI -->  <div id="loseScreen">  
-    <div id="loseText">Uduzdun 💔</div>  
-    <div id="endButtons">  
-        <button onclick="restartGame()">Yenidən oyna</button>  
-        <button onclick="closeGame()">Çıx</button>  
-    </div>  
-</div>  <script src="nlove.js"></script>  </body>  
+<!-- ARXA FON ŞƏKİL -->
+<div id="bg"></div>
+
+<!-- DAVAM ET OVERLAY -->
+<div id="startOverlay">
+    <button id="continueBtn">Davam et</button>
+</div>
+
+<!-- ARXA FON MUSİQİ -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- YUXARIDA YIĞILAN SÖZ -->
+<div id="topWord"></div>
+
+<!-- OYUN SAHƏSİ -->
+<div id="game">
+    <img id="heart" src="heart.png" draggable="false">
+</div>
+
+<!-- PARTİCLE -->
+<canvas id="particles"></canvas>
+
+<!-- QAZANMA -->
+<div id="endScreen">
+    <div id="loveText">SƏNİ SEVİRƏM 🖤</div>
+    <div id="endButtons">
+        <button onclick="restartGame()">Yenidən oyna</button>
+        <button onclick="closeGame()">Çıx</button>
+    </div>
+</div>
+
+<!-- UDUZMA -->
+<div id="loseScreen">
+    <div id="loseText">Uduzdun 💔</div>
+    <div id="endButtons">
+        <button onclick="restartGame()">Yenidən oyna</button>
+        <button onclick="closeGame()">Çıx</button>
+    </div>
+</div>
+
+<script src="nlove.js"></script>
+</body>
 </html>
