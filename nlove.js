@@ -1,5 +1,5 @@
 /* ===== PAROL SISTEMI ===== */
-const PASSWORD = "hsnfanur"; // 🔒 BURADAN DEYIŞ
+const PASSWORD = "nurane"; // 🔒 BURADAN DEYIŞ
 const passOverlay = document.getElementById("passwordOverlay");
 const passBtn = document.getElementById("passwordBtn");
 const passInput = document.getElementById("passwordInput");
